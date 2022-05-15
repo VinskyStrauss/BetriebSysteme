@@ -15,6 +15,11 @@ void sigChldHandler(int signum);
 pid_t pid;
 std::vector<pid_t> liste;
 
+//pid foreground
+std::vector<pid_t> vordergrund;
+//pid background
+std::vector<pid_t> hintergrund;
+
 int main(){
     signal(SIGTSTP, sigTstpHandler);
     signal(SIGINT, sigIntHandler);
@@ -98,7 +103,20 @@ void run(std::string command){
                 return;
             }
 
-            if(command.at(0) == 'f' && command.at(1) == 'g' && command.at(2) == ' '){ //Continue foreground Process
+            if(command.at(0) == 'f' && command.at(1) == 'g' && command.at(2) == ' ' && !vordergrund.empty()){ //Continue foreground Process
+                std::string s_contPid = "";
+
+                for(int i = 3; i < command.size(); i++){
+                    s_contPid += command.at(i);
+                }
+
+                pid = std::stoi(s_contPid);
+                kill(pid, SIGCONT);
+
+                return;
+            }
+
+            if(command.at(0) == 'b' && command.at(1) == 'g' && command.at(2) == ' ' && !hintergrund.empty()){ //Continue foreground Process
                 std::string s_contPid = "";
 
                 for(int i = 3; i < command.size(); i++){
@@ -125,11 +143,12 @@ void run(std::string command){
             }
             else{
                 if(pipeFlag == 0){
+                    vordergrund.push_back(pid);
                     waitpid(pid, NULL, WUNTRACED);
                 }
 
                 else if(pipeFlag == 1){   
-                    liste.push_back(pid);    
+                    hintergrund.push_back(pid);    
                     waitpid(pid, NULL, WNOHANG);             
                     for(int i = 0; i < liste.size(); i++){
                         std::cout << "Hintergrund: [" << liste.at(i) << "]\n";
