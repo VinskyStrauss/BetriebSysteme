@@ -101,7 +101,7 @@ void run(std::string command){
             if(command.at(0) == 'f' && command.at(1) == 'g' && command.at(2) == ' '){ //Continue foreground Process
                 std::string s_contPid = "";
 
-                for(int i = 5; i < command.size(); i++){
+                for(int i = 3; i < command.size(); i++){
                     s_contPid += command.at(i);
                 }
 
