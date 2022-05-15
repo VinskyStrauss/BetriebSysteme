@@ -111,9 +111,14 @@ void run(std::string command){
                 }
 
                 pid = std::stoi(s_contPid);
-                kill(pid, SIGCONT);
+                for(unsigned int i=0; i<vordergrund.size(); i++){
+                    if(pid == vordergrund.at(i)){
+                     kill(pid, SIGCONT);
+                     return;   
+                    }
+                }
 
-                return;
+              
             }
 
             if(command.at(0) == 'b' && command.at(1) == 'g' && command.at(2) == ' ' && !hintergrund.empty()){ //Continue foreground Process
@@ -124,9 +129,14 @@ void run(std::string command){
                 }
 
                 pid = std::stoi(s_contPid);
-                kill(pid, SIGCONT);
-
-                return;
+                for(unsigned int i=0; i<hintergrund.size(); i++){
+                    if(pid == hintergrund.at(i)){
+                     kill(pid, SIGCONT);
+                     return;   
+                    }
+                }
+                
+                
             }
 
             pid = fork();
