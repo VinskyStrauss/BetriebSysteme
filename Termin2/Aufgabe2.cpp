@@ -117,11 +117,12 @@ void run(std::string command){
                      return;   
                     }
                 }
+                return;
 
               
             }
 
-            if(command.at(0) == 'b' && command.at(1) == 'g' && command.at(2) == ' ' && !hintergrund.empty()){ //Continue foreground Process
+            if(command.at(0) == 'b' && command.at(1) == 'g' && command.at(2) == ' ' && !hintergrund.empty()){ //Continue background Process
                 std::string s_contPid = "";
 
                 for(int i = 3; i < command.size(); i++){
@@ -135,7 +136,7 @@ void run(std::string command){
                      return;   
                     }
                 }
-                
+                return;
                 
             }
 
