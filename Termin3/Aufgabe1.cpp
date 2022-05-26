@@ -105,5 +105,5 @@ int main(){
 
     //Mutex destroy
     pthread_mutex_destroy(&M);
-    pthread_mutex_init(&M2);
+    pthread_mutex_destroy(&M2);
 }
