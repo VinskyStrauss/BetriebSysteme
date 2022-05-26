@@ -6,7 +6,7 @@
 #include <semaphore.h>
 using namespace std;
 //Warteschlange
-queue Warteschlange:
+queue Warteschlange;
 //Counter
 int AnruferID = 0;
 int* linie;
