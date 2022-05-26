@@ -11,6 +11,10 @@ queue <int> Warteschlange;
 int AnruferID = 0;
 int* linie;
 int freeMitarbeiter;
+//Anzahl der Mitarbeiter
+int Anzahl;
+//Anzahl der Anrufer
+int Ruferanzahl;
 //Semaphore
 sem_t semFull;
 sem_t semEmpty;
@@ -20,7 +24,7 @@ pthread_mutex_t M2;
 
 //Funktion for Mitarbeiter
 void* takeCall(void* args){
-while (true)
+while (Ruferanzahl>0)
 {
     sem_wait(&semFull);
     //Accept call
@@ -33,6 +37,7 @@ while (true)
     std::cout<<"End of conversation"<<endl;
     sem_post(&semEmpty);
 }
+return NULL;
 }
 
 //Funktion for Anrufer
@@ -47,22 +52,17 @@ while(true){
         //Check Semaphore
         sem_wait(&semEmpty);      
         sem_post(&semFull);
+        Ruferanzahl--;
         break;
     }
 //if full wait 5 seconds and make another call
     else{
-        cout<<"Warteschlange ist Voll"<<endl;
         pthread_mutex_unlock(&M2);
         sleep (5);
     }
-  
 }
 }
 int main(){
-    //Anzahl der Mitarbeiter
-    int Anzahl;
-    //Anzahl der Anrufer
-    int Ruferanzahl;
 
     cout<<"Anzahl Mitarbeiter: ";
     cin>>Anzahl;
@@ -108,4 +108,5 @@ int main(){
     //Mutex destroy
     pthread_mutex_destroy(&M);
     pthread_mutex_destroy(&M2);
+    return 0;
 }
