@@ -24,7 +24,7 @@ pthread_mutex_t M2;
 
 //Funktion for Mitarbeiter
 void* takeCall(void* args){
-while (Ruferanzahl>0)
+while (Ruferanzahl>0 && !Warteschlange.empty())
 {
     sem_wait(&semFull);
     //Accept call
