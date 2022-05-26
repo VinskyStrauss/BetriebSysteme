@@ -47,6 +47,7 @@ while(true){
         //Check Semaphore
         sem_wait(&semEmpty);      
         sem_post(&semFull);
+        break;
     }
 //if full wait 5 seconds and make another call
     else{
