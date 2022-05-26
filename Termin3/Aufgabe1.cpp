@@ -6,7 +6,7 @@
 #include <semaphore.h>
 using namespace std;
 //Warteschlange
-queue Warteschlange;
+queue <int> Warteschlange;
 //Counter
 int AnruferID = 0;
 int* linie;
@@ -24,10 +24,10 @@ while (true)
 {
     sem_wait(&semFull);
     //Accept call
-    M.lock();
+    pthread_mutex_lock(&M);
     std::cout<<"Accepting call from Anrufer ID"<< Warteschlange.front() <<endl;
     Warteschlange.pop();
-    M.unlock();
+    pthread_mutex_unlock(&M);
     //duration of the call is 2 seconds
     sleep (2);
     std::cout<<"End of conversation"<<endl;
@@ -40,17 +40,17 @@ void* makeCall(void* args){
 while(true){
 //Check warteschlange
 //if not full go to the warteschlange
- M2.lock();
+ pthread_mutex_lock(&M2);
     if(Warteschlange.size() < 15){     
         Warteschlange.push(++AnruferID);
-        M2.unlock();
+        pthread_mutex_unlock(&M2);
         //Check Semaphore
         sem_wait(&semEmpty);      
         sem_post(&semFull);
     }
 //if full wait 5 seconds and make another call
     else{
-        M2.unlock();
+        pthread_mutex_unlock(&M2);
         sleep (5);
     }
   
@@ -86,7 +86,7 @@ int main(){
     }
 
     //Assign thread as Mitarbeiter
-    pthread_t* mitArbeiter = new pthread_t[mitArbeiter];
+    pthread_t* mitArbeiter = new pthread_t[Anzahl];
     for(int i=0; i<Anzahl; i++){
         pthread_create(&mitArbeiter[i],NULL,takeCall,NULL);
     }
