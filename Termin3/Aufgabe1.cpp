@@ -29,7 +29,7 @@ while (Ruferanzahl>0)
     sem_wait(&semFull);
     //Accept call
     pthread_mutex_lock(&M);
-    std::cout<<"Accepting call from Anrufer ID"<< Warteschlange.front() <<endl;
+    std::cout<<"Accepting call from Anrufer ID "<< Warteschlange.front() <<endl;
     Warteschlange.pop();
     pthread_mutex_unlock(&M);
     //duration of the call is 2 seconds
@@ -48,10 +48,11 @@ while(true){
  pthread_mutex_lock(&M2);
     if(Warteschlange.size() < 15){     
         Warteschlange.push(++AnruferID);
-        pthread_mutex_unlock(&M2);
         //Check Semaphore
         sem_wait(&semEmpty);      
         sem_post(&semFull);
+        std::cout << "Anrufer " << AnruferID << ": going out\n";
+        pthread_mutex_unlock(&M2);
         break;
     }
 //if full wait 5 seconds and make another call
