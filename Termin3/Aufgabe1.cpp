@@ -62,6 +62,7 @@ while(true){
 }
 Ruferanzahl--;
 std::cout << "Ruferanzahl: " << Ruferanzahl << '\n';
+return NULL;
 }
 int main(){
 
