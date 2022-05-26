@@ -52,7 +52,6 @@ while(true){
         //Check Semaphore
         sem_wait(&semEmpty);      
         sem_post(&semFull);
-        Ruferanzahl--;
         break;
     }
 //if full wait 5 seconds and make another call
@@ -61,6 +60,8 @@ while(true){
         sleep (5);
     }
 }
+Ruferanzahl--;
+std::cout << "Ruferanzahl: " << Ruferanzahl << '\n';
 }
 int main(){
 
@@ -108,5 +109,6 @@ int main(){
     //Mutex destroy
     pthread_mutex_destroy(&M);
     pthread_mutex_destroy(&M2);
+    std::cout << "Programm fertig\n";
     return 0;
 }
