@@ -51,7 +51,7 @@ while(true){
         //Check Semaphore
         sem_wait(&semEmpty);      
         sem_post(&semFull);
-        std::cout << "Anrufer " << AnruferID << ": going out\n";
+        // std::cout << "Anrufer " << AnruferID << ": going out\n";
         pthread_mutex_unlock(&M2);
         break;
     }
@@ -62,7 +62,7 @@ while(true){
     }
 }
 Ruferanzahl--;
-std::cout << "Ruferanzahl: " << Ruferanzahl << '\n';
+// std::cout << "Ruferanzahl: " << Ruferanzahl << '\n';
 return NULL;
 }
 int main(){
