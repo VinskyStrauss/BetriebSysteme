@@ -50,6 +50,7 @@ while(true){
     }
 //if full wait 5 seconds and make another call
     else{
+        cout<<"Warteschlange ist Voll"<<endl;
         pthread_mutex_unlock(&M2);
         sleep (5);
     }
