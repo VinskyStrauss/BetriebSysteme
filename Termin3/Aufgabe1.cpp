@@ -16,10 +16,10 @@ sem_t semFull;
 sem_t semEmpty;
 //Mutex
 pthread_mutex_t M;
-pthread_mutex_t M2:
+pthread_mutex_t M2;
 
 //Funktion for Mitarbeiter
-void takeCall(){
+void* takeCall(void* args){
 while (true)
 {
     sem_wait(&semFull);
@@ -36,12 +36,12 @@ while (true)
 }
 
 //Funktion for Anrufer
-void makeCall(){
+void* makeCall(void* args){
 while(true){
 //Check warteschlange
 //if not full go to the warteschlange
  M2.lock();
-    if(Warteschlange.size() < 15;){     
+    if(Warteschlange.size() < 15){     
         Warteschlange.push(++AnruferID);
         M2.unlock();
         //Check Semaphore
