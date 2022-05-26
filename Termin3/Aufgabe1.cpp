@@ -90,8 +90,9 @@ int main(){
     }
 
     //Assign thread as Anrufer
+    const int rufer_anzahl = Ruferanzahl;
     pthread_t* Anrufer = new pthread_t[Ruferanzahl];
-    for(int i=0; i<Ruferanzahl; i++){
+    for(int i=0; i<rufer_anzahl; i++){
         pthread_create(&Anrufer[i],NULL,makeCall,NULL);
     }
     
