@@ -25,7 +25,7 @@ pthread_mutex_t M2;
 void* takeCall(void* args){
 while (Ruferanzahl>0 || !Warteschlange.empty())
 {
-    sem_
+    sem_wait(&semFull);
     wait(&semFull);
     //Accept call
     pthread_mutex_lock(&M);
