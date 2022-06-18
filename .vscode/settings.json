@@ -9,6 +9,8 @@
         "type_traits": "cpp",
         "vector": "cpp",
         "xtree": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "thread": "cpp",
+        "xlocale": "cpp"
     }
 }
