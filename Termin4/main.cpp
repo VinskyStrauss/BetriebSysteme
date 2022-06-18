@@ -27,7 +27,6 @@ void* takeCall(void* args){
 while (Ruferanzahl>0 || !Warteschlange.empty())
 {
     sem_wait(&semFull);
-    wait(&semFull);
     //Accept call
     pthread_mutex_lock(&M);
     std::cout<<"Accepting call from Anrufer ID "<< Warteschlange.top() <<endl;
