@@ -6,8 +6,8 @@
 #include <unistd.h>
 #include <semaphore.h>
 using namespace std;
-//Warteschlange mit LIFO (Last in First out)
-stack <int> Warteschlange;
+//Warteschlange
+std::stack <int> Warteschlange;
 //Counter
 int AnruferID = 0;
 int freeMitarbeiter;
@@ -15,29 +15,37 @@ int freeMitarbeiter;
 int Anzahl;
 //Anzahl der Anrufer
 int Ruferanzahl;
-//Semaphore
+//Semaphore für Mitarbeiter
 sem_t semFull;
 sem_t semEmpty;
+
+sem_t semMitarbeiter;
+//Semaphore für Warteschlange
+sem_t semFullWarte;
+sem_t semEmptyWarte;
 //Mutex
 pthread_mutex_t M;
 pthread_mutex_t M2;
 
 //Funktion for Mitarbeiter
 void* takeCall(void* args){
-while (Ruferanzahl>0 || !Warteschlange.empty())
-{
-    sem_wait(&semFull);
-    //Accept call
-    pthread_mutex_lock(&M);
-    std::cout<<"Accepting call from Anrufer ID "<< Warteschlange.top() <<endl;
-    Warteschlange.pop();
-    pthread_mutex_unlock(&M);
-    //duration of the call is 2 seconds
-    sleep (2);
-    std::cout<<"End of conversation"<<endl;
-    sem_post(&semEmpty);
-}
-return NULL;
+    while (true)
+    {
+        //Accept call
+        sem_wait(&semFullWarte);
+        sem_wait(&semMitarbeiter);
+        pthread_mutex_lock(&M);
+        int id = Warteschlange.top();
+        std::cout<<"Accepting call from Anrufer ID "<< id <<endl;
+        Warteschlange.pop();
+        pthread_mutex_unlock(&M);
+        sem_post(&semEmptyWarte);
+        //duration of the call is 10 seconds
+        sleep (5);
+        sem_post(&semMitarbeiter);
+        std::cout<<"End of conversation " << id <<endl;
+    }
+    return NULL;
 }
 
 //Funktion for Anrufer
@@ -45,19 +53,20 @@ void* makeCall(void* args){
 while(true){
 //Check warteschlange
 //if not full go to the warteschlange
- pthread_mutex_lock(&M2);
-    if(Warteschlange.size() < 15){     
-        Warteschlange.push(++AnruferID);
+    if(Warteschlange.size() < 15){    
+        sem_wait(&semEmptyWarte);
+        pthread_mutex_lock(&M2);
         //Check Semaphore
-        sem_wait(&semEmpty);      
-        sem_post(&semFull);
+        Warteschlange.push(++AnruferID);
+        std::cout << "Added Anrufer " << AnruferID << std::endl;
+        sem_post(&semFullWarte);
         // std::cout << "Anrufer " << AnruferID << ": going out\n";
         pthread_mutex_unlock(&M2);
         break;
     }
-//if full wait 5 seconds and make another call
+// if full wait 5 seconds and make another call
     else{
-        pthread_mutex_unlock(&M2);
+        // pthread_mutex_unlock(&M2);
         sleep (5);
     }
 }
@@ -76,8 +85,11 @@ int main(){
     freeMitarbeiter = Anzahl;
 
     //Semaphore initialisation
-    sem_init(&semFull,0,0);
-    sem_init(&semEmpty,0,Anzahl);
+    sem_init(&semMitarbeiter,0,Anzahl);
+
+    sem_init(&semFullWarte,0,0);
+    sem_init(&semEmptyWarte,0,15);
+    
  
     //Mutex initialisation
     pthread_mutex_init(&M,NULL);
@@ -106,8 +118,9 @@ int main(){
     }
 
     //Semaphore destroy
-    sem_destroy(&semFull);
-    sem_destroy(&semEmpty);
+    sem_destroy(&semEmptyWarte);
+    sem_destroy(&semFullWarte);
+    sem_destroy(&semMitarbeiter);
 
     //Mutex destroy
     pthread_mutex_destroy(&M);
