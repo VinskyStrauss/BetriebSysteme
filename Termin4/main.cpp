@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <semaphore.h>
 using namespace std;
-//Warteschlange
+//Warteschlange mit LIFO (Last in First out)
 stack <int> Warteschlange;
 //Counter
 int AnruferID = 0;
