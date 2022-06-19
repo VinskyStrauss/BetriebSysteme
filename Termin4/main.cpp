@@ -68,9 +68,9 @@ void* makeCall(void* args){
         sleep (5);
     }
 
-Ruferanzahl--;
+
 // std::cout << "Ruferanzahl: " << Ruferanzahl << '\n';
-return NULL;
+
 }
 int main(){
 
