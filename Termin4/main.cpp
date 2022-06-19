@@ -5,7 +5,6 @@
 #include <mutex>
 #include <unistd.h>
 #include <semaphore.h>
-#include <chrono>
 using namespace std;
 //Warteschlange
 std::stack <int> Warteschlange;
@@ -30,29 +29,30 @@ pthread_mutex_t M2;
 
 //Funktion for Mitarbeiter
 void* takeCall(void* args){
-while(true){
+    while (true)
+    {
         //Accept call
         sem_wait(&semFullWarte);
         sem_wait(&semMitarbeiter);
         pthread_mutex_lock(&M);
         int id = Warteschlange.top();
         Warteschlange.pop();
-        std::cout<<"Accepting call from Anrufer ID "<< id <<endl;       
+        std::cout<<"Accepting call from Anrufer ID "<< id <<endl;
         pthread_mutex_unlock(&M);
-        //duration of the call is 2 seconds
-        sleep (2);
-        sem_post(&semMitarbeiter);
         sem_post(&semEmptyWarte);
+        //duration of the call is 10 seconds
+        sleep (5);
+        sem_post(&semMitarbeiter);
         std::cout<<"End of conversation " << id <<endl;
-        
+    }
+    return NULL;
 }
-return NULL;
-}
+
 //Funktion for Anrufer
 void* makeCall(void* args){
+while(true){
 //Check warteschlange
 //if not full go to the warteschlange
-while(true){
     if(Warteschlange.size() < 15){    
         sem_wait(&semEmptyWarte);
         pthread_mutex_lock(&M2);
@@ -62,15 +62,16 @@ while(true){
         sem_post(&semFullWarte);
         // std::cout << "Anrufer " << AnruferID << ": going out\n";
         pthread_mutex_unlock(&M2);
+        break;
     }
 // if full wait 5 seconds and make another call
     else{
         // pthread_mutex_unlock(&M2);
         sleep (5);
     }
-// std::cout << "Ruferanzahl: " << Ruferanzahl << '\n';
-    
 }
+Ruferanzahl--;
+// std::cout << "Ruferanzahl: " << Ruferanzahl << '\n';
 return NULL;
 }
 int main(){
