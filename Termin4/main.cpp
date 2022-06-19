@@ -29,7 +29,8 @@ pthread_mutex_t M2;
 
 //Funktion for Mitarbeiter
 void* takeCall(void* args){
-    while (true)
+    int anrufcounter = Ruferanzahl;
+    while (anrufcounter != 0)
     {
         //Accept call
         sem_wait(&semFullWarte);
@@ -37,14 +38,14 @@ void* takeCall(void* args){
         pthread_mutex_lock(&M);
         int id = Warteschlange.top();
         Warteschlange.pop();
-        std::cout<<"Accepting call from Anrufer ID "<< id <<endl;
-        
+        std::cout<<"Accepting call from Anrufer ID "<< id <<endl;       
         pthread_mutex_unlock(&M);
         //duration of the call is 5 seconds
         sleep (5);
         sem_post(&semMitarbeiter);
         sem_post(&semEmptyWarte);
         std::cout<<"End of conversation " << id <<endl;
+        anrufcounter --;
     }
     return NULL;
 }
