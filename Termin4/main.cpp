@@ -39,10 +39,10 @@ void* takeCall(void* args){
         std::cout<<"Accepting call from Anrufer ID "<< id <<endl;
         Warteschlange.pop();
         pthread_mutex_unlock(&M);
-        sem_post(&semEmptyWarte);
-        //duration of the call is 10 seconds
+        //duration of the call is 5 seconds
         sleep (5);
         sem_post(&semMitarbeiter);
+        sem_post(&semEmptyWarte);
         std::cout<<"End of conversation " << id <<endl;
     }
     return NULL;
