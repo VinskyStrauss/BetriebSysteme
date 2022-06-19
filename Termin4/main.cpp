@@ -40,8 +40,8 @@ void* takeCall(void* args){
         Warteschlange.pop();
         std::cout<<"Accepting call from Anrufer ID "<< id <<endl;       
         pthread_mutex_unlock(&M);
-        //duration of the call is 5 seconds
-        sleep (5);
+        //duration of the call is 2 seconds
+        sleep (2);
         sem_post(&semMitarbeiter);
         sem_post(&semEmptyWarte);
         std::cout<<"End of conversation " << id <<endl;
@@ -52,7 +52,6 @@ void* takeCall(void* args){
 
 //Funktion for Anrufer
 void* makeCall(void* args){
-while(true){
 //Check warteschlange
 //if not full go to the warteschlange
     if(Warteschlange.size() < 15){    
@@ -71,7 +70,7 @@ while(true){
         // pthread_mutex_unlock(&M2);
         sleep (5);
     }
-}
+
 Ruferanzahl--;
 // std::cout << "Ruferanzahl: " << Ruferanzahl << '\n';
 return NULL;
