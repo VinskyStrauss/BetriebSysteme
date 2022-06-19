@@ -34,8 +34,12 @@ pthread_mutex_t M2;
 void* takeCall(void* args){
     struct timespec ts; 
     ts.tv_sec = 20;
-    while (!sem_timedwait(&semFullWarte, &ts))
+    while (true)
     {
+        int erg = sem_timedwait(&semFullWarte, &ts);
+        if(erg != 0){
+            break;
+        }
         //Accept call
         sem_wait(&semMitarbeiter);
         pthread_mutex_lock(&M);
