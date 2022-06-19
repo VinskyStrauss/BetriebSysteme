@@ -18,6 +18,7 @@ int Ruferanzahl;
 //Semaphore für Mitarbeiter
 sem_t semFull;
 sem_t semEmpty;
+
 sem_t semMitarbeiter;
 //Semaphore für Warteschlange
 sem_t semFullWarte;
@@ -32,17 +33,17 @@ void* takeCall(void* args){
     {
         //Accept call
         sem_wait(&semFullWarte);
-        sem_wait(&semFullMitarbeiter);
+        sem_wait(&semMitarbeiter);
         pthread_mutex_lock(&M);
         int id = Warteschlange.top();
         std::cout<<"Accepting call from Anrufer ID "<< id <<endl;
         Warteschlange.pop();
         pthread_mutex_unlock(&M);
+        sem_post(&semEmptyWarte);
         //duration of the call is 10 seconds
         sleep (5);
-        sem_post(&semEmptyMitarbeiter);
+        sem_post(&semMitarbeiter);
         std::cout<<"End of conversation " << id <<endl;
-        sem_post(&semEmptyWarte);
     }
     return NULL;
 }
@@ -84,8 +85,8 @@ int main(){
     freeMitarbeiter = Anzahl;
 
     //Semaphore initialisation
-    sem_init(&semEmptyMitarbeiter,0,Anzahl);
-    sem_init(&semFullMitarbeiter,0,0)
+    sem_init(&semMitarbeiter,0,Anzahl);
+
     sem_init(&semFullWarte,0,0);
     sem_init(&semEmptyWarte,0,15);
     
