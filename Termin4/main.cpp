@@ -36,8 +36,9 @@ void* takeCall(void* args){
         sem_wait(&semMitarbeiter);
         pthread_mutex_lock(&M);
         int id = Warteschlange.top();
-        std::cout<<"Accepting call from Anrufer ID "<< id <<endl;
         Warteschlange.pop();
+        std::cout<<"Accepting call from Anrufer ID "<< id <<endl;
+        
         pthread_mutex_unlock(&M);
         //duration of the call is 5 seconds
         sleep (5);
