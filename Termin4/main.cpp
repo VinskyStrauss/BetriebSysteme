@@ -5,6 +5,8 @@
 #include <mutex>
 #include <unistd.h>
 #include <semaphore.h>
+#include <chrono>
+
 using namespace std;
 //Warteschlange
 std::stack <int> Warteschlange;
@@ -29,10 +31,12 @@ pthread_mutex_t M2;
 
 //Funktion for Mitarbeiter
 void* takeCall(void* args){
-    while (true)
+    struct timespec ts;
+    ts.tv_sec = 10;
+    while (!sem_timedwait(&semFullWarte,&ts))
     {
         //Accept call
-        sem_wait(&semFullWarte);
+        //sem_wait(&semFullWarte);
         sem_wait(&semMitarbeiter);
         pthread_mutex_lock(&M);
         int id = Warteschlange.top();
