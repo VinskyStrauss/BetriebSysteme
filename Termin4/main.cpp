@@ -1,4 +1,4 @@
-//Termin4
+//Termin4BS
 #include <iostream>
 #include <stack>
 #include <pthread.h>
