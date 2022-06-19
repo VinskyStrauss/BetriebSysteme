@@ -43,9 +43,8 @@ void* takeCall(void* args){
         sem_post(&semMitarbeiter);
         sem_post(&semEmptyWarte);
         std::cout<<"End of conversation " << id <<endl;
-        anrufcounter --;
-    
 
+        return NULL;
 }
 
 //Funktion for Anrufer
@@ -67,10 +66,8 @@ void* makeCall(void* args){
         // pthread_mutex_unlock(&M2);
         sleep (5);
     }
-
-
 // std::cout << "Ruferanzahl: " << Ruferanzahl << '\n';
-
+    return NULL;
 }
 int main(){
 
