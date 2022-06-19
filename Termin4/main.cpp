@@ -33,7 +33,7 @@ pthread_mutex_t M2;
 //Funktion for Mitarbeiter
 void* takeCall(void* args){
     struct timespec ts; 
-    ts.tv_sec = 30;
+    ts.tv_sec = 20;
     while (!sem_timedwait(&semFullWarte, &ts))
     {
         //Accept call
@@ -46,7 +46,7 @@ void* takeCall(void* args){
         pthread_mutex_unlock(&M);
         sem_post(&semEmptyWarte);
         //duration of the call is 10 seconds
-        sleep (2);
+        sleep (5);
         sem_post(&semMitarbeiter);
         std::cout<<"End of conversation " << id <<endl;
     }
