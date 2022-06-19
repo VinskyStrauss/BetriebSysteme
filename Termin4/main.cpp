@@ -29,9 +29,7 @@ pthread_mutex_t M2;
 
 //Funktion for Mitarbeiter
 void* takeCall(void* args){
-    int anrufcounter = Ruferanzahl;
-    while (anrufcounter != 0)
-    {
+
         //Accept call
         sem_wait(&semFullWarte);
         sem_wait(&semMitarbeiter);
@@ -46,8 +44,8 @@ void* takeCall(void* args){
         sem_post(&semEmptyWarte);
         std::cout<<"End of conversation " << id <<endl;
         anrufcounter --;
-    }
-    return NULL;
+    
+
 }
 
 //Funktion for Anrufer
