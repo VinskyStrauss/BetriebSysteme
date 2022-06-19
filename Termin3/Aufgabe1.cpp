@@ -5,10 +5,10 @@
 #include <unistd.h>
 #include <semaphore.h>
 #include <chrono>
+using namespace std;
 using chrono::high_resolution_clock;
 using chrono::seconds;
 using chrono::duration_cast;
-using namespace std;
 //Warteschlange
 queue <int> Warteschlange;
 //Counter
