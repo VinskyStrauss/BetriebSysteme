@@ -63,7 +63,6 @@ void* makeCall(void* args){
         sem_post(&semFullWarte);
         // std::cout << "Anrufer " << AnruferID << ": going out\n";
         pthread_mutex_unlock(&M2);
-        break;
     }
 // if full wait 5 seconds and make another call
     else{
