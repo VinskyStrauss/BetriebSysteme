@@ -45,7 +45,7 @@ void* takeCall(void* args){
         pthread_mutex_unlock(&M);
         sem_post(&semEmptyWarte);
         //duration of the call is 10 seconds
-        sleep (5);
+        sleep (2);
         sem_post(&semMitarbeiter);
         std::cout<<"End of conversation " << id <<endl;
     }
