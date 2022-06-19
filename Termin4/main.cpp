@@ -43,8 +43,9 @@ while(true){
         sem_post(&semMitarbeiter);
         sem_post(&semEmptyWarte);
         std::cout<<"End of conversation " << id <<endl;
-        return NULL;
+        
 }
+return NULL;
 }
 //Funktion for Anrufer
 void* makeCall(void* args){
@@ -67,8 +68,9 @@ while(true){
         sleep (5);
     }
 // std::cout << "Ruferanzahl: " << Ruferanzahl << '\n';
-    return NULL;
+    
 }
+return NULL;
 }
 int main(){
 
