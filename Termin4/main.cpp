@@ -29,7 +29,7 @@ pthread_mutex_t M2;
 
 //Funktion for Mitarbeiter
 void* takeCall(void* args){
-while(true){}
+while(true){
         //Accept call
         sem_wait(&semFullWarte);
         sem_wait(&semMitarbeiter);
