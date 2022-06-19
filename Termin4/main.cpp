@@ -29,7 +29,7 @@ pthread_mutex_t M2;
 
 //Funktion for Mitarbeiter
 void* takeCall(void* args){
-
+while(true){}
         //Accept call
         sem_wait(&semFullWarte);
         sem_wait(&semMitarbeiter);
@@ -43,14 +43,14 @@ void* takeCall(void* args){
         sem_post(&semMitarbeiter);
         sem_post(&semEmptyWarte);
         std::cout<<"End of conversation " << id <<endl;
-
         return NULL;
 }
-
+}
 //Funktion for Anrufer
 void* makeCall(void* args){
 //Check warteschlange
 //if not full go to the warteschlange
+while(true){
     if(Warteschlange.size() < 15){    
         sem_wait(&semEmptyWarte);
         pthread_mutex_lock(&M2);
@@ -68,6 +68,7 @@ void* makeCall(void* args){
     }
 // std::cout << "Ruferanzahl: " << Ruferanzahl << '\n';
     return NULL;
+}
 }
 int main(){
 
