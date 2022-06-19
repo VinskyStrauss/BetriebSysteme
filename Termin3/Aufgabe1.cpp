@@ -4,6 +4,10 @@
 #include <mutex>
 #include <unistd.h>
 #include <semaphore.h>
+#include <chrono>
+using chrono::high_resolution_clock;
+using chrono::seconds;
+using chrono::duration_cast;
 using namespace std;
 //Warteschlange
 queue <int> Warteschlange;
@@ -66,6 +70,10 @@ return NULL;
 }
 int main(){
 
+    //chrono
+    high_resolution_clock::time_point my_end {};
+    high_resolution_clock::time_point my_start{high_resolution_clock::now()};
+
     cout<<"Anzahl Mitarbeiter: ";
     cin>>Anzahl;
     cout<<"Anzahl der Anrufer: ";
@@ -111,6 +119,9 @@ int main(){
     //Mutex destroy
     pthread_mutex_destroy(&M);
     pthread_mutex_destroy(&M2);
+    my_end = high_resolution_clock::now();
+    seconds s{duration_cast<seconds>(my_end-my_start)};
+    std::cout<<"durchschnittliche Wartezeit =" <<((s.count()-(2*Ruferanzahl))/Ruferanzahl)<<" Seconds"<<endl;
     std::cout << "Programm fertig\n";
     return 0;
 }

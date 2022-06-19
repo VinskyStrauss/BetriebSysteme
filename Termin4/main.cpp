@@ -32,6 +32,7 @@ pthread_mutex_t M2;
 
 //Funktion for Mitarbeiter
 void* takeCall(void* args){
+    sleep(5);
     struct timespec ts; 
     ts.tv_sec = 20;
     while (!sem_timedwait(&semFullWarte, &ts))
