@@ -54,7 +54,7 @@ void* takeCall(void* args){
 
 //Funktion for Anrufer
 void* makeCall(void* args){
-while(true){
+while(AnruferID < 15){
 //Check warteschlange
 //if not full go to the warteschlange
     if(Warteschlange.size() < 15){    
