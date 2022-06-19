@@ -100,11 +100,6 @@ int main(){
     pthread_mutex_init(&M,NULL);
     pthread_mutex_init(&M2,NULL);
 
-    //Assign thread as Mitarbeiter
-    pthread_t* mitArbeiter = new pthread_t[Anzahl];
-    for(int i=0; i<Anzahl; i++){
-        pthread_create(&mitArbeiter[i],NULL,takeCall,NULL);
-    }
 
     //Assign thread as Anrufer
     const int rufer_anzahl = Ruferanzahl;
@@ -112,6 +107,14 @@ int main(){
     for(int i=0; i<rufer_anzahl; i++){
         pthread_create(&Anrufer[i],NULL,makeCall,NULL);
     }
+
+    //Assign thread as Mitarbeiter
+    pthread_t* mitArbeiter = new pthread_t[Anzahl];
+    for(int i=0; i<Anzahl; i++){
+        pthread_create(&mitArbeiter[i],NULL,takeCall,NULL);
+    }
+
+    
     
     //Join Anrufer
     for(int i=0; i<Ruferanzahl; i++){
