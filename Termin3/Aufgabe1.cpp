@@ -25,6 +25,11 @@ sem_t semEmpty;
 pthread_mutex_t M;
 pthread_mutex_t M2;
 
+//chrono
+high_resolution_clock::time_point my_end {};
+high_resolution_clock::time_point my_start{high_resolution_clock::now()};
+
+
 //Funktion for Mitarbeiter
 void* takeCall(void* args){
 while (Ruferanzahl>0 || !Warteschlange.empty())
@@ -70,10 +75,7 @@ return NULL;
 }
 int main(){
 
-    //chrono
-    high_resolution_clock::time_point my_end {};
-    high_resolution_clock::time_point my_start{high_resolution_clock::now()};
-
+    
     cout<<"Anzahl Mitarbeiter: ";
     cin>>Anzahl;
     cout<<"Anzahl der Anrufer: ";
@@ -121,7 +123,7 @@ int main(){
     pthread_mutex_destroy(&M2);
     my_end = high_resolution_clock::now();
     seconds s{duration_cast<seconds>(my_end-my_start)};
-    std::cout<<"durchschnittliche Wartezeit =" <<((s.count()-(2*Ruferanzahl))/Ruferanzahl)<<" Seconds"<<endl;
+    std::cout<<"durchschnittliche Wartezeit =" <<(double)((s.count()-(2*Ruferanzahl))/Ruferanzahl)<<" Seconds"<<endl;
     std::cout << "Programm fertig\n";
     return 0;
 }
